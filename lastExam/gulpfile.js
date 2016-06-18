@@ -6,7 +6,7 @@ var cleanCSS = require('gulp-clean-css');
 var connect = require('gulp-connect');
 
 //js 프로젝트 소스파일
-var jsfiles = ['js/config.js', 'js/pages/**/*.js', 'js/main.js', 'js/app.js'];
+var jsfiles = ['js/app.js', 'js/about_modal.js', 'js/pages/**/*.js', 'js/fullScreen.js'];
 
 gulp.task('concat:js', function() {
     return gulp.src(jsfiles)
@@ -18,6 +18,12 @@ gulp.task('copy:html', function() {
     return gulp.src('index.html')
         .pipe(connect.reload())
         .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('copy:img', function() {
+    return gulp.src('js/images/*')
+        .pipe(connect.reload())
+        .pipe(gulp.dest('dist/js/images'));
 });
 
 gulp.task('copy:lib', function() {
@@ -49,7 +55,7 @@ gulp.task('connect', function() {
 });
 
 
-gulp.task('copy', ['copy:html', 'copy:lib']);
-gulp.task('build', ['concat:js', 'copy', 'minify:css']);
+gulp.task('copy', ['copy:html', 'copy:lib', 'copy:img']);
+gulp.task('build', ['concat:js', 'copy', 'minify:css', 'minify:js']);
 gulp.task('server', ['connect']);
 gulp.task('default', ['build', 'watch', 'server']);
